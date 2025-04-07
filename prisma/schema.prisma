@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  name      String?
+  phone     String?
+  address   String?
+  linkedin  String?
+  portfolio String?
+  summary   String?
+
+  skills         String?
+  hobbies        String?
+  languages      Language[]
+  certifications Certification[]
+  education      Education[]
+  experiences    Experience[]
+
+  createdAt DateTime @default(now())
+
+  Project Project[]
+}
+
+model Experience {
+  id          String  @id @default(uuid())
+  title       String
+  company     String
+  location    String
+  start       String
+  end         String?
+  description String
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+}
+
+model Education {
+  id          String  @id @default(uuid())
+  degree      String
+  school      String
+  location    String
+  start       String
+  end         String?
+  description String
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+}
+
+model Certification {
+  id           String @id @default(uuid())
+  name         String
+  organization String
+  date         String
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id          String @id @default(uuid())
+  title       String
+  url         String
+  description String
+  userId      String
+  user        User   @relation(fields: [userId], references: [id])
+}
+
+model Language {
+  id     String @id @default(uuid())
+  name   String
+  level  String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
