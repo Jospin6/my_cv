@@ -33,6 +33,10 @@ model User {
   createdAt DateTime @default(now())
 
   Project Project[]
+
+  Cv Cv[]
+
+  CoverLetter CoverLetter[]
 }
 
 model Experience {
@@ -83,4 +87,37 @@ model Language {
   level  String
   userId String
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model Cv {
+  id             String   @id @default(uuid())
+  title          String 
+  summary        String? 
+  skills         Json? 
+  experiences    Json?
+  educations     Json?
+  certifications Json?
+  projects       Json?
+  languages      Json?
+  createdAt      DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  CoverLetter CoverLetter[]
+}
+
+model CoverLetter {
+  id         String   @id @default(uuid())
+  title      String   // ex: "Cover Letter for Frontend Role at Stripe"
+  content    String   // texte complet généré (markdown ou texte brut)
+  company    String?   // ex: "Stripe"
+  jobTitle   String?   // ex: "Frontend Software Engineer"
+  location   String?  // optionnel
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  cvId       String?  // optionnel, si liée à un CV précis
+  cv         Cv?      @relation(fields: [cvId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
