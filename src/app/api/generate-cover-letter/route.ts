@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { streamObject } from "ai";
 import { gemini } from "@/lib/gemini";
 import { z } from "zod";
+import { generateCoverLetterPrompt, generateCoverLetterSystemPrompt } from "@/helpers/helpers";
 
 const coverLetterSchema = z.object({
   title: z.string().describe("Title of the cover letter (e.g., 'Cover Letter for Frontend Role at Stripe')"),
@@ -13,14 +14,17 @@ const coverLetterSchema = z.object({
 });
 
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
+    const { description, user } = await req.json()
+    const prompt = generateCoverLetterPrompt({ description, user })
+    const system = generateCoverLetterSystemPrompt()
     try {
         const result = await streamObject({
             model: gemini("gemini-1.5-flash"),
             output: 'array',
             schema: coverLetterSchema,
-            system: "use the information provided to generate a cover letter",
-            prompt: "Generate a cover letter for a job application",
+            system: system,
+            prompt: prompt,
         });
     
         return result.toTextStreamResponse();
