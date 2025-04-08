@@ -16,21 +16,19 @@ const experienceSchema = z.object({
 
 type ExperienceFormValues = z.infer<typeof experienceSchema>;
 
-export default function ExperienceForm({
-  defaultValues,
-  onSubmit,
-}: {
-  defaultValues?: Partial<ExperienceFormValues>;
-  onSubmit: (data: ExperienceFormValues) => void;
-}) {
+export default function ExperienceForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ExperienceFormValues>({
     resolver: zodResolver(experienceSchema),
-    defaultValues,
+    // defaultValues,
   });
+
+  const onSubmit = () => {
+
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-700 p-4 rounded-xl space-y-4">

@@ -4,6 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InputField } from "../ui/InputField";
 import { TextAreaField } from "../ui/textAreaField";
 import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { updateUser } from "@/redux/user/userSlice";
 
 const userSchema = z.object({
   email: z.string().email(),
@@ -19,23 +22,26 @@ const userSchema = z.object({
 
 type UserFormValues = z.infer<typeof userSchema>;
 
-export default function EditUserForm({ defaultValues }: { defaultValues: Partial<UserFormValues> }) {
+export default function EditUserForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
-    defaultValues,
+    // defaultValues,
   });
+  const dispatch = useDispatch<AppDispatch>()
+  const id = "dfsds-jhehze-dsd"
 
   const onSubmit = (data: UserFormValues) => {
-    console.log("Form Submitted", data);
-    // tu peux ici envoyer les données vers le backend
+    dispatch(updateUser({id, data}))
+    reset()
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-700 p-4 rounded-xl space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-700 p-4 rounded-xl w-full">
       <InputField
         label="Email"
         name="email"

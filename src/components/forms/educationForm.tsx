@@ -16,21 +16,19 @@ const educationSchema = z.object({
 
 type EducationFormValues = z.infer<typeof educationSchema>;
 
-export default function EducationForm({
-  defaultValues,
-  onSubmit,
-}: {
-  defaultValues?: Partial<EducationFormValues>;
-  onSubmit: (data: EducationFormValues) => void;
-}) {
+export default function EducationForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<EducationFormValues>({
     resolver: zodResolver(educationSchema),
-    defaultValues,
+    // defaultValues,
   });
+
+  const onSubmit = () => {
+
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-700 p-4 rounded-xl space-y-4">

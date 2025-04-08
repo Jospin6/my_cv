@@ -22,6 +22,7 @@ export async function PUT(req: Request) {
 
   const {
     name,
+    email,
     phone,
     address,
     linkedin,
@@ -39,6 +40,7 @@ export async function PUT(req: Request) {
     user = await prisma.user.create({
       data: {
         name,
+        email,
         phone,
         address,
         linkedin,

@@ -5,8 +5,8 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { generateCv } from "@/redux/cv/cvSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { generateCv, selectCvState } from "@/redux/cv/cvSlice";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { AppDispatch } from "@/redux/store";
 
@@ -14,6 +14,7 @@ export default function Home() {
     const inputRef = useRef<HTMLDivElement>(null);
     const [input, setInput] = useState("");
     const dispatch = useDispatch<AppDispatch>();
+    const cv = useSelector(selectCvState)
     const user = useCurrentUser();
 
     const handleSend = () => {
@@ -29,11 +30,11 @@ export default function Home() {
     };
 
     return (
-        <div className="">
+        <div>
             <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full absolute bg-gray-950 pb-4 pt-2 bottom-0 mt-auto"
+                className="w-full pb-4 pt-2 mt-auto"
             >
                 <div className="max-w-3xl mx-auto px-4">
                     <motion.div
@@ -68,6 +69,17 @@ export default function Home() {
                     </motion.div>
                 </div>
             </motion.div>
+            {cv.cv ? (
+                <div>
+                <p>{cv.cv.title}</p>
+                <p>{cv.cv.summary}</p>
+                <p>{cv.cv.skills}</p>
+            </div>
+            ): (
+                <div>
+                    Give your job description and i will generate you a create cv
+                </div>
+            )}
         </div>
     );
 }

@@ -43,7 +43,7 @@ type Experience = {
 };
 
 export interface User {
-  id: string;
+  id?: string;
   email: string;
   name?: string;
   phone?: string;
@@ -53,12 +53,12 @@ export interface User {
   summary?: string;
   skills?: string;
   hobbies?: string;
-  Language: Language[];
-  Certification: Certification[];
-  Education: Education[];
-  Project: Project[]
-  Experience: Experience[];
-  createdAt: string;
+  Language?: Language[];
+  Certification?: Certification[];
+  Education?: Education[];
+  Project?: Project[]
+  Experience?: Experience[];
+  createdAt?: string;
 }
 
 interface UserState {
@@ -85,9 +85,9 @@ export const fetchUser = createAsyncThunk<User, string>(
   }
 );
 
-export const updateUser = createAsyncThunk<User, { id: string; data: FormData }>(
+export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async ({ id, data }) => {
+  async ({ id, data }: { id: string; data: User}) => {
     const response = await axios.put(`/api/users/${id}`, data);
     return response.data;
   }

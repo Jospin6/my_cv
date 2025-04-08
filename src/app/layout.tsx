@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import "./globals.css";
+import { ReduxProvider } from "@/redux/provider";
 
 export const metadata: Metadata = {
   title: "My cv",
@@ -14,12 +15,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
+    <html>
+      <body className="overflow-x-hidden">
+        <ReduxProvider>
+          <SidebarProvider className="">
+            <AppSidebar />
+            <main className="w-full">
+              <SidebarTrigger />
+              <div className="w-10/12 m-auto">
+                {children}
+              </div>
+            </main>
+          </SidebarProvider>
+        </ReduxProvider>
+      </body>
+    </html>
+
   );
 }
