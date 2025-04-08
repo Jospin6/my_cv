@@ -63,6 +63,7 @@ export interface User {
 
 interface UserState {
   user: User | null;
+  currentUser: User | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
@@ -70,6 +71,7 @@ interface UserState {
 // Initial state
 const initialState: UserState = {
   user: null,
+  currentUser: null,
   status: 'idle',
   error: null,
 };
@@ -91,6 +93,21 @@ export const updateUser = createAsyncThunk<User, { id: string; data: FormData }>
   }
 );
 
+export const fetchcurrentUser = createAsyncThunk(
+  "user/currentUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("/api/me", { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data || "Erreur inconnue");
+      }
+      return rejectWithValue("Erreur inconnue");
+    }
+  }
+);
+
 // User slice
 const userSlice = createSlice({
   name: 'user',
@@ -98,6 +115,18 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchcurrentUser.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(fetchcurrentUser.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.currentUser = action.payload
+      })
+      .addCase(fetchcurrentUser.rejected, (state) => {
+        state.status = 'failed';
+        state.error = "An error occured"
+      })
+
       .addCase(fetchUser.pending, (state) => {
         state.status = 'loading';
       })
@@ -127,5 +156,6 @@ const userSlice = createSlice({
 export const selectUser = (state: RootState) => state.user.user;
 export const selectUserStatus = (state: RootState) => state.user.status;
 export const selectUserError = (state: RootState) => state.user.error;
+export const selectCurrentUser = (state: RootState) => state.user.currentUser
 
 export default userSlice.reducer;
