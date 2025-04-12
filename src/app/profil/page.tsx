@@ -5,7 +5,7 @@ import ExperienceForm from "@/components/forms/experienceForm";
 import ProjectForm from "@/components/forms/projectForm";
 
 export default function Profil() {
-    return <div className="w-full">
+    return <div className="w-full text-gray-800">
         <div className="mt-3">
             <EditUserForm />
         </div>

@@ -44,6 +44,7 @@ export default function EditUserForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="border border-gray-700 p-4 rounded-xl w-full">
       <InputField
         label="Email"
+        className="text-gray-800"
         name="email"
         placeholder="example@email.com"
         type="email"
@@ -53,6 +54,7 @@ export default function EditUserForm() {
       <InputField
         label="Name"
         name="name"
+        className="text-gray-800"
         placeholder="Your full name"
         register={register}
         errors={errors}
@@ -61,12 +63,14 @@ export default function EditUserForm() {
         label="Phone"
         name="phone"
         placeholder="+243..."
+        className="text-gray-800"
         register={register}
         errors={errors}
       />
       <InputField
         label="Address"
         name="address"
+        className="text-gray-800"
         placeholder="City, Country"
         register={register}
         errors={errors}
@@ -74,6 +78,7 @@ export default function EditUserForm() {
       <InputField
         label="LinkedIn"
         name="linkedin"
+        className="text-gray-800"
         placeholder="https://linkedin.com/in/..."
         register={register}
         errors={errors}
@@ -81,6 +86,7 @@ export default function EditUserForm() {
       <InputField
         label="Portfolio"
         name="portfolio"
+        className="text-gray-800"
         placeholder="https://yourportfolio.com"
         register={register}
         errors={errors}
@@ -89,6 +95,7 @@ export default function EditUserForm() {
       <TextAreaField
         label="Professional Summary"
         name="summary"
+        className="text-gray-800"
         placeholder="Brief summary about your experience and goals..."
         register={register}
         errors={errors}
@@ -97,6 +104,7 @@ export default function EditUserForm() {
       <TextAreaField
         label="Skills"
         name="skills"
+        className="text-gray-800"
         placeholder="List your technical and soft skills"
         register={register}
         errors={errors}
@@ -105,6 +113,7 @@ export default function EditUserForm() {
       <TextAreaField
         label="Hobbies"
         name="hobbies"
+        className="text-gray-800"
         placeholder="What do you enjoy doing outside of work?"
         register={register}
         errors={errors}

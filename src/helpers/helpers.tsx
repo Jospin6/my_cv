@@ -1,16 +1,16 @@
 import { User } from "@/redux/user/userSlice";
 
 export const generateCvPrompt = (
-    { description, user }: { description: string, user: User }) => {
+    { description}: { description: string }) => {
     return `
         Generate a complete, ATS-optimized resume based on the following job description and candidate profile.
         Using the job description below and the user's profile information, generate a customized CV optimized for ATS systems.
 
         Job Description:
         ${description}
-
+        
         Candidate Profile:
-        ${JSON.stringify(user)}
+        generate randm user profile
 
         The resume should include:
         - A professional summary tailored to the job

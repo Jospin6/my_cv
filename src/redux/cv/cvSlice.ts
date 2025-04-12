@@ -17,11 +17,13 @@ export interface Cv {
     userId: string
 }
 
+
 export const generateCv = createAsyncThunk(
     "cv/generateCv",
-    async ({ description, user }: { description: string, user: User }, { rejectWithValue }) => {
+    async ({ description, user }: { description: string, user?: User }, { rejectWithValue }) => {
         try {
-            const res = await axios.post('/api/generate-cv', { description, user })
+            const res = await axios.post('/api/generate-cv', { description})
+            console.log("CV RESPONSE", res.data)
 
             return res.data
         } catch (error: any) {
